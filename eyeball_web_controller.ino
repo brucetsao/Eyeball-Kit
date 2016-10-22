@@ -28,7 +28,7 @@
  * ***********************************/
 const char* host = "eyeball-kit";     // http://eyeball-kit.local
 const char* ssid     = "SSID NAME";         //Your wifi ssid
-const char* password = "SSID PASSWORD!";  //Your wifi password
+const char* password = "SSID PASSWORD";  //Your wifi password
 
 Servo myservo_v;  // create servo object to control the vertical servo 
 Servo myservo_h;  // create servo object to control the horizontal servo 
