@@ -15,7 +15,6 @@
 #include <Servo.h> 
 
 #include <ESP8266WiFi.h>
-#include <ESP8266WiFiMulti.h>
 #include <ESP8266mDNS.h>
 #include <WebSocketsClient.h>
 #include <Hash.h>
@@ -33,7 +32,6 @@ Servo myservo_h;  // create servo object to control the horizontal servo
 
 #define USE_SERIAL Serial1
 
-ESP8266WiFiMulti WiFiMulti;
 WebSocketsClient webSocket;
 
 char* x = NULL;
@@ -89,10 +87,10 @@ void setup() {
       }
 
     sprintf(hostString, "ESP_%06X", ESP.getChipId());
-    WiFiMulti.addAP(ssid, password);
+    WiFi.begin(ssid,password);
 
     //WiFi.disconnect();
-    while(WiFiMulti.run() != WL_CONNECTED) {
+    while(WiFi.status() != WL_CONNECTED) {
         delay(100);
     }
 
