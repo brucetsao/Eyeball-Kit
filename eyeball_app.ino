@@ -6,7 +6,7 @@
   - Flash this sketch to the ESP8266 board
   - Install EyeballKit App on your Android phone, download it from: http://d.naozhendang.com/eyeballkit.apk
   - Controll the kit with the installed EyabllKit App
- * Author: naozhendang.com
+ * Author: naozhendang.com 
  * More info: http://www.naozhendang.com/p/eyeball-kit
  * Tutorial: http://www.naozhendang.com/t/eyeball-app
  */
@@ -74,7 +74,7 @@ void setup() {
     
     USE_SERIAL.begin(115200);
 
-    USE_SERIAL.setDebugOutput(true);
+    //USE_SERIAL.setDebugOutput(true);
 
     USE_SERIAL.println();
     USE_SERIAL.println();
@@ -87,11 +87,15 @@ void setup() {
       }
 
     sprintf(hostString, "ESP_%06X", ESP.getChipId());
+    
+    WiFi.disconnect();
     WiFi.begin(ssid,password);
+    USE_SERIAL.println();
 
     //WiFi.disconnect();
     while(WiFi.status() != WL_CONNECTED) {
         delay(100);
+        USE_SERIAL.print(".");
     }
 
     //webSocket.begin("eyeball.local", 8888);
