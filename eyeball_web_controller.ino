@@ -1,3 +1,5 @@
+#include <ESP8266WebServer.h>
+
 /*
  * EyeballKit Web Controller Example
  * Description: Controll your eyeball kit through web server. No phone app required.
@@ -26,7 +28,7 @@
 /**************************************
  * !!!!!Config Here!!!
  * ***********************************/
-const char* host = "eyeball-kit";     // http://eyeball-kit.local
+const char* host = "eyeball1-kit";     // http://eyeball-kit.local
 const char* ssid     = "SSID NAME";         //Your wifi ssid
 const char* password = "SSID PASSWORD";  //Your wifi password
 
@@ -68,6 +70,27 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t lenght
             break;
     }
 
+}
+
+//index page
+void handleRoot() {
+  server.send(200, "text/html", serverIndex);
+}
+
+//404 page
+void handleNotFound(){
+  String message = "File Not Found\n\n";
+  message += "URI: ";
+  message += server.uri();
+  message += "\nMethod: ";
+  message += (server.method() == HTTP_GET)?"GET":"POST";
+  message += "\nArguments: ";
+  message += server.args();
+  message += "\n";
+  for (uint8_t i=0; i<server.args(); i++){
+    message += " " + server.argName(i) + ": " + server.arg(i) + "\n";
+  }
+  server.send(404, "text/plain", message);
 }
 
 void setup() {
@@ -118,25 +141,4 @@ void setup() {
 void loop() {
     webSocket.loop();
     server.handleClient();
-}
-
-//index page
-void handleRoot() {
-  server.send(200, "text/html", serverIndex);
-}
-
-//404 page
-void handleNotFound(){
-  String message = "File Not Found\n\n";
-  message += "URI: ";
-  message += server.uri();
-  message += "\nMethod: ";
-  message += (server.method() == HTTP_GET)?"GET":"POST";
-  message += "\nArguments: ";
-  message += server.args();
-  message += "\n";
-  for (uint8_t i=0; i<server.args(); i++){
-    message += " " + server.argName(i) + ": " + server.arg(i) + "\n";
-  }
-  server.send(404, "text/plain", message);
 }
