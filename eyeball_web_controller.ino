@@ -28,7 +28,7 @@
 /**************************************
  * !!!!!Config Here!!!
  * ***********************************/
-const char* host = "eyeball1-kit";     // http://eyeball-kit.local
+const char* host = "eyeball-kit";     // http://eyeball-kit.local
 const char* ssid     = "SSID NAME";         //Your wifi ssid
 const char* password = "SSID PASSWORD";  //Your wifi password
 
@@ -125,7 +125,8 @@ void setup() {
         USE_SERIAL.printf("MDNS responder started: http://%s.local",host);
     }
 
-    USE_SERIAL.print("IP address: ");
+    USE_SERIAL.print("\nIP address: ");
+    USE_SERIAL.flush();
     USE_SERIAL.println(WiFi.localIP());
 
     server.on("/", handleRoot);
