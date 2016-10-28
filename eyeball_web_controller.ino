@@ -1,5 +1,3 @@
-#include <ESP8266WebServer.h>
-
 /*
  * EyeballKit Web Controller Example
  * Description: Controll your eyeball kit through web server. No phone app required.
@@ -111,23 +109,30 @@ void setup() {
           delay(1000);
       }
 
+    WiFi.disconnect();
     WiFi.begin(ssid,password);
+    USE_SERIAL.println();
 
     while(WiFi.status() != WL_CONNECTED) {
         delay(100);
-    }
-
-    // start webSocket server
-    webSocket.begin();
-    webSocket.onEvent(webSocketEvent);
-
-    if(MDNS.begin(host)) {
-        USE_SERIAL.printf("MDNS responder started: http://%s.local",host);
+        USE_SERIAL.print(".");
     }
 
     USE_SERIAL.print("\nIP address: ");
     USE_SERIAL.flush();
     USE_SERIAL.println(WiFi.localIP());
+
+    if(!MDNS.begin(host)) {
+        USE_SERIAL.println("Error setting up MDNS responder!");
+        while(1) { 
+           delay(1000);
+        }
+    }
+    USE_SERIAL.printf("MDNS responder started: http://%s.local",host);
+
+    // start webSocket server
+    webSocket.begin();
+    webSocket.onEvent(webSocketEvent);
 
     server.on("/", handleRoot);
     server.onNotFound(handleNotFound);
